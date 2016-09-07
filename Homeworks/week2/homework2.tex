@@ -1,0 +1,67 @@
+\documentclass{article}
+
+\begin{document}
+
+\section{Problem 10.1}
+
+Training Data:\\
+
+\begin{tabular}{c|cccc}
+
+  Class & CornFlakes & Frosties & Sugar Puffs & Branflakes \\
+  \hline
+  Greater than 60 & 1 & 0 & 0 & 0\\
+  Greater than 60 & 1 & 0 & 0 & 1\\
+  Greater than 60 & 1 & 1 & 1 & 1\\
+  Greater than 60 & 0 & 0 & 0 & 1\\
+  Less than 60 & 0 & 1 & 1 & 0\\
+  Less than 60 & 1 & 1 & 1 & 0\\
+  
+
+\end{tabular}
+
+\subsection{(a)}
+
+$P(Less than 60 | <0,1,1,0>) = \frac{P(Less than 60) * P(<0,1,1,0>|Less than 60)}{P(<0,1,1,0>)} = \frac{\frac{1}{3} * \frac{1}{2}}{\frac{1}{6}} = 1$
+
+\subsection{(b)}
+
+$P(age) = \frac{ P(age) * P(<a,b,c,d> | age) }{ P(<a,b,c,d>) }$
+
+\section{Problem 10.5}
+
+\subsection{}
+
+$P(C=1) = \sum_{i=0}^N P(X_i | C=1)$ \\
+
+
+$P(X_i = 1 | C = 1) = \frac{P(C=1) * P(C=1 | X_i=1) }{P(X_i = 1}$ \\
+
+
+$P(X_i=1 | C = 0) =  \frac{P(C=0) * P(C=0 | X_i=1) }{P(X_i = 1}$ \\
+
+
+\subsection{}
+
+To form the classifier, we must take the probability of an input vector $\vec{x}$ and class $C$ and divide it by the probability of the input vector:\\
+
+$P(C|\vec{x}) = \frac{P(\vec{x},C)}{P(\vec{x})}$
+
+\subsection{}
+
+If the word viagra doesn't appear in the training set, then $P(Viagra | C) = 0$ meaning via Bayes rule $P(C | Viagra) = 0$ . Via intuition, we know this must not be true. To fix this, we need to use a technique called smoothing, which basically means adding some arbitrary value $z$ to all of our probabilities to insure that they are always non-zero.
+
+\section{Dirichlet Distributions}
+
+\subsection{(a)}
+
+One situation might be where we want to model classes of classes. An example would be if we were to classify spam or not spam, and then classify the sender of that particular email.
+
+\subsection{(b)}
+
+From Lowest to highest entopy:\\
+$Dir(2,2,2)$\\
+$Dir(1,1,1)$\\
+$Dir(0.1,0.1,0.1)$\\
+
+\end{document}
