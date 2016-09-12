@@ -23,4 +23,6 @@ for line_num, act in enumerate(actual_file):
     if(actual_class == predicted_class):
         correct_predictions += 1
 
-print("Accuracy = " + str((correct_predictions/len(actual_file)) * 100))
+total_samples = len(actual_file)
+accuracy = float(correct_predictions)/total_samples * 100
+print("Accuracy = " + str(accuracy) + "%")
