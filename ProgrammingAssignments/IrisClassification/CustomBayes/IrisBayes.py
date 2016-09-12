@@ -4,6 +4,7 @@
 # Author: Carl Cortright
 # Date: 9/10/2016
 #
+# Copyright 2016 Carl Cortright
 ################################################################################
 import csv
 import math
@@ -14,7 +15,7 @@ import math
 #
 def getIrisModel(inFile):
     # Set up the CSV file
-    iris_data = open(inFile, "rb")
+    iris_data = open(inFile, "rt", encoding="ascii")
     iris_data_csv = csv.reader(iris_data, delimiter=',')
     # Read the CSV file into a 3d dict
     iris_dict = {"Iris-setosa":{}, "Iris-versicolor":{}, "Iris-virginica":{}}
@@ -32,7 +33,7 @@ def getIrisModel(inFile):
     for classification in iris_dict:
         for entry in iris_dict[classification].values():
             for i, value in enumerate(entry):
-                if(not feature_probabilities[classification].has_key((i,value))):
+                if(not (i,value) in feature_probabilities[classification]):
                     feature_count = 0
                     for entry in iris_dict[classification].values():
                         if(entry[i] == value):
@@ -57,11 +58,11 @@ def classify(v, model):
     IRIS_VIRGINICA_P = float(1)/3
     for i, f_i in enumerate(v):
         # Using log-space
-        if(model["Iris-setosa"].has_key((i, f_i))):
+        if((i, f_i) in model["Iris-setosa"]):
             setosa_p += math.log(model["Iris-setosa"][(i, f_i)] + 1)
-        if(model["Iris-versicolor"].has_key((i, f_i))):
+        if((i, f_i) in model["Iris-versicolor"]):
             versicolor_p += math.log(model["Iris-versicolor"][(i, f_i)] + 1)
-        if(model["Iris-virginica"].has_key((i, f_i))):
+        if((i, f_i) in model["Iris-virginica"]):
             virginica_p += math.log(model["Iris-virginica"][(i, f_i)] + 1)
     setosa_p *= IRIS_SETOSA_P
     versicolor_p *= IRIS_VERSICOLOR_P
@@ -75,7 +76,7 @@ def classify(v, model):
 #
 def calcAccuracy(training_data_file, test_data_file):
     naive_bayes_model = getIrisModel(training_data_file)
-    test_data = open(test_data_file, "rb")
+    test_data = open(test_data_file, "rt", encoding="ascii")
     test_data_csv = csv.reader(test_data, delimiter=",")
     test_data_dict = {}
     for i, row in enumerate(test_data_csv):
@@ -89,9 +90,10 @@ def calcAccuracy(training_data_file, test_data_file):
         if(classify(entry, naive_bayes_model) == entry[4]):
             correct_count += 1
         else:
-            print("Predicted: " + classify(entry, naive_bayes_model) + " Actual: " + entry[4])
+            print("MISS! Predicted: " + classify(entry, naive_bayes_model) + ", Actual: " + entry[4])
 
     print("Accuracy=" + str(float(correct_count)/len(test_data_dict)))
+
 
 
 calcAccuracy("iris.training.data", "iris.test.data")
