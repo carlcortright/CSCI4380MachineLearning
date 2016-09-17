@@ -135,7 +135,7 @@ def calcAccuracyDist():
     accuracyDist = {}
     for ratio in range(1, ratio_max):
         total = 0
-        tests = 5000
+        tests = 20000
         for trial in range(0, tests):
             shuffleData(ratio, 1)
             total += calcAccuracy("iris.training.data", "iris.test.data")
