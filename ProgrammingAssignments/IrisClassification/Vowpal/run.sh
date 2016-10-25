@@ -13,13 +13,15 @@
 echo "Training vw model..."
 rm iris.model
 rm predictions.txt
-vw -f iris.model --passes=10 --cache_file=iris.cache --kill_cache  --oaa 3 --loss_function=hinge < iris.training.data
+# vw -f iris.model --passes=10 --cache_file=iris.cache --kill_cache  --oaa 3 --loss_function=logistic < iris.training.data
+vw -f iris.model --passes=200 --cache_file=iris.cache --kill_cache  --oaa 3 --nn=7 < iris.training.data
+
 
 # Test the model
 echo
 echo
 echo "Testing model..."
-vw -i iris.model --cache_file=test.cache -t -p ./predictions.txt < iris.test.data
+vw -i iris.model -t -p ./predictions.txt < iris.test.data
 
 # Calculate the accuracy of the model
 echo
