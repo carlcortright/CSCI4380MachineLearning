@@ -1,2 +1,4 @@
 # Dont include the course repository
 CourseRepo/
+# Or the final project repo
+DinoRL/
