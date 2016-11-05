@@ -13,11 +13,11 @@ class Numbers:
 
     def __init__(self, location):
         import gzip
-        import _pickle as cPickle
+        import cPickle
 
         # Load the dataset
         f = gzip.open(location, 'rb')
-        train_set, valid_set, test_set = cPickle.load(f, encoding='bytes')
+        train_set, valid_set, test_set = cPickle.load(f)
 
         self.train_x, self.train_y = train_set
         self.test_x, self.test_y = valid_set
@@ -55,17 +55,13 @@ class Knearest:
         # Finish this function to return the most common y value for
         # these indices
 
-        # print(item_indices)
-
         count = Counter([self._y[x] for x in item_indices])
-        common = count.most_common(1)
+        common = count.most_common(2)
 
-        if(len(common) > 1):
-            high_count = median(count)
+        if(len(common) > 1 and common[0][1] == common[1][1]):
+            high_count = median(count.keys())
         else:
             high_count = common[0][0]
-
-        # print(high_count)
 
         return high_count
 
@@ -79,8 +75,10 @@ class Knearest:
 
         # Finish this function to find the k closest points, query the
         # majority function, and return the value.
+        example = example.reshape(1, -1)
         closest = self._kdtree.query(example, self._k)[1][0]
         major = self.majority(closest)
+
 
         # print("Query: %s" % str(example))
         # print("Closest: %s" % str(list(self._x[ii] for ii in closest)))
@@ -144,9 +142,9 @@ if __name__ == "__main__":
     print("Done loading data")
 
     confusion = knn.confusion_matrix(data.test_x, data.test_y)
-    print("\t" + "\t".join(str(x) for x in range(10)))
+    print("\t" + "\t".join(str(x) for x in xrange(10)))
     print("".join(["-"] * 90))
-    for ii in range(10):
+    for ii in xrange(10):
         print("%i:\t" % ii + "\t".join(str(confusion[ii].get(x, 0))
-                                       for x in range(10)))
+                                       for x in xrange(10)))
     print("Accuracy: %f" % knn.acccuracy(confusion))
